@@ -1,4 +1,4 @@
 ---
 bootstrap_packages:
-  - python-minimal
-  - python-dateutil
+  - locales
+  - python

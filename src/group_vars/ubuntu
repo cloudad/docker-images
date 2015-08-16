@@ -13,3 +13,5 @@ bootstrap_suites:
   - '{{ bootstrap_codename }}-updates'
   - '{{ bootstrap_codename }}-security'
   - '{{ bootstrap_codename }}-proposed'
+
+common_locale_gen_path: /var/lib/locales/supported.d/local

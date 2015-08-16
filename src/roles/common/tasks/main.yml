@@ -1,0 +1,44 @@
+---
+- name: begin common
+  debug:
+    msg: Provision basic system configuration
+
+- name: configure timezone
+  template:
+    src: timezone.j2
+    dest: /etc/timezone
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - update timezone
+
+- name: configure locales
+  template:
+    src: locale.gen.j2
+    dest: /etc/locale.gen
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - generate locales
+
+- name: configure default locale
+  template:
+    src: locale.j2
+    dest: /etc/default/locale
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - update locales
+
+- name: link supported locales
+  file:
+    src: /etc/locale.gen
+    dest: '{{ common_locale_gen_path }}'
+    force: yes
+    state: link
+  when: common_locale_gen_path != '/etc/locale.gen'
+
+- meta: flush_handlers

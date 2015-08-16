@@ -33,4 +33,5 @@
       connection: local
 
   roles:
+    - role: common
     - role: docker-image

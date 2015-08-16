@@ -1,0 +1,9 @@
+---
+- name: update timezone
+  command: dpkg-reconfigure --frontend noninteractive tzdata
+
+- name: generate locales
+  command: dpkg-reconfigure --frontend noninteractive locales
+
+- name: update locales
+  command: /usr/sbin/update-locale
