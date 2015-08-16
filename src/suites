@@ -1,0 +1,9 @@
+[ubuntu]
+ubuntu-trusty
+
+[debian]
+debian-jessie
+
+[debian-based:children]
+ubuntu
+debian

@@ -1,0 +1,13 @@
+---
+bootstrap_origin: debian
+bootstrap_mirror: http://ftp.debian.org/debian/
+
+bootstrap_components:
+  - main
+  - contrib
+  - non-free
+
+bootstrap_suites:
+  - '{{ codename }}'
+  - '{{ codename }}-updates'
+  - '{{ codename }}-proposed-updates'

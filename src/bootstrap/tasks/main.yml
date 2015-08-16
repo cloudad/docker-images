@@ -1,0 +1,47 @@
+---
+- name: check variables
+  assert:
+    that:
+      - bootstrap_origin is string and bootstrap_origin|length
+      - bootstrap_mirror is string and bootstrap_mirror|length
+      - bootstrap_target_path is string and bootstrap_target_path|length
+      - bootstrap_codename is string and bootstrap_codename|length
+      - bootstrap_arch is string and bootstrap_arch|length
+      - bootstrap_components is sequence and bootstrap_components|length
+      - bootstrap_packages is none or bootstrap_packages is sequence
+      - bootstrap_suites is sequence and bootstrap_suites|length
+
+- name: begin bootstrap
+  debug:
+    msg: Bootstrap {{ bootstrap_origin|title }} {{ bootstrap_codename|title }} at {{ bootstrap_target_path|path_abspath }}
+
+- name: umount target mountpoints
+  command: umount -lR '{{ item }}'
+  with_items:
+    - '{{ bootstrap_target_path|path_abspath }}/dev/'
+    - '{{ bootstrap_target_path|path_abspath }}/proc/'
+    - '{{ bootstrap_target_path|path_abspath }}/sys/'
+  when: item|path_ismount
+
+- name: remove target directory
+  file:
+    path: '{{ bootstrap_target_path|path_abspath }}'
+    state: absent
+
+- name: create target directory
+  file:
+    path: '{{ bootstrap_target_path|path_abspath }}'
+    state: directory
+
+- name: setup basic system
+  command: >
+    debootstrap
+    '--arch={{ bootstrap_arch }}'
+    '--components={{ bootstrap_components|join(",") }}'
+    {% if bootstrap_packages %}
+      '--include={{ bootstrap_packages|join(",") }}'
+    {% endif %}
+    '--variant=minbase'
+    '{{ bootstrap_codename }}'
+    '{{ bootstrap_target_path|path_abspath }}'
+    '{{ bootstrap_mirror }}'

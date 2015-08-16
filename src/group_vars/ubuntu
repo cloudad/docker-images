@@ -1,0 +1,15 @@
+---
+bootstrap_origin: ubuntu
+bootstrap_mirror: http://archive.ubuntu.com/ubuntu/
+
+bootstrap_components:
+  - main
+  - multiverse
+  - restricted
+  - universe
+
+bootstrap_suites:
+  - '{{ codename }}'
+  - '{{ codename }}-updates'
+  - '{{ codename }}-security'
+  - '{{ codename }}-proposed'
