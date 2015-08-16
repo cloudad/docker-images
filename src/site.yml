@@ -15,3 +15,22 @@
   roles:
     - role: bootstrap
       dir: bootstrap/
+
+- hosts: all
+  gather_facts: no
+  connection: chroot
+
+  tags:
+    - provision
+
+  vars:
+    ansible_ssh_host: '{{ target_path|path_abspath }}'
+
+  pre_tasks:
+    - name: begin provision
+      debug:
+        msg: Chrooting into directory '{{ ansible_ssh_host }}'
+      connection: local
+
+  roles:
+    - role: docker-image

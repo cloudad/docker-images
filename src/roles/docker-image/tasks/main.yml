@@ -1,0 +1,24 @@
+---
+- name: begin docker-image
+  debug:
+    msg: Provision Docker Image specific configuration
+
+- name: cleanup filesystem
+  shell: rm -rfv {{ item }}
+  args:
+    executable: /bin/bash
+    warn: no
+  with_items:
+    - /var/cache/apt/archives/*.deb
+    - /var/cache/apt/archives/partial/*
+    - /var/cache/debconf/*-old
+    - /var/lib/apt/lists/*{Release,Packages,Translation}*
+    - /usr/share/locale/*
+    - /usr/share/man/??
+    - /usr/share/man/??@*
+    - /usr/share/man/??_*
+    - /var/cache/man/??
+    - /var/cache/man/??@*
+    - /var/cache/man/??_*
+  register: cleanup_result
+  changed_when: cleanup_result.stdout
