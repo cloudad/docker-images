@@ -8,6 +8,6 @@ bootstrap_components:
   - non-free
 
 bootstrap_suites:
-  - '{{ codename }}'
-  - '{{ codename }}-updates'
-  - '{{ codename }}-proposed-updates'
+  - '{{ bootstrap_codename }}'
+  - '{{ bootstrap_codename }}-updates'
+  - '{{ bootstrap_codename }}-proposed-updates'

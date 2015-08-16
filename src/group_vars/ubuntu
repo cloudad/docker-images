@@ -9,7 +9,7 @@ bootstrap_components:
   - universe
 
 bootstrap_suites:
-  - '{{ codename }}'
-  - '{{ codename }}-updates'
-  - '{{ codename }}-security'
-  - '{{ codename }}-proposed'
+  - '{{ bootstrap_codename }}'
+  - '{{ bootstrap_codename }}-updates'
+  - '{{ bootstrap_codename }}-security'
+  - '{{ bootstrap_codename }}-proposed'

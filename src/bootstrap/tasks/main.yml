@@ -45,3 +45,11 @@
     '{{ bootstrap_codename }}'
     '{{ bootstrap_target_path|path_abspath }}'
     '{{ bootstrap_mirror }}'
+
+- name: setup repositiories
+  template:
+    src: sources.list.j2
+    dest: '{{ bootstrap_target_path|path_abspath }}/etc/apt/sources.list'
+    owner: root
+    group: root
+    mode: 0644
