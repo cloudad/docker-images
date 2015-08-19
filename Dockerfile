@@ -2,7 +2,7 @@ FROM ubuntu-debootstrap:vivid
 
 
 RUN apt-get update \
- && DEBIAN_FRONTEND=noninteractive apt-get install -yqq \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -yq \
     software-properties-common \
  && find \
     /var/cache/apt/archives/ \
@@ -12,7 +12,7 @@ RUN apt-get update \
 
 RUN apt-add-repository ppa:ansible/ansible \
  && apt-get update \
- && DEBIAN_FRONTEND=noninteractive apt-get install -yqq \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -yq \
     ansible \
     debootstrap \
  && find \

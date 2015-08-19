@@ -18,13 +18,19 @@ SHELL_ENTRYPOINT="bash"
 
 
 docker_prepare() {
-    if [ -z "$(docker images -q "${IMAGE_NAME}")" ]; then
-        docker build --pull -t "${IMAGE_NAME}" .
+    local force_build=0
+
+    if [ "$1" == "-f" ]; then
+        force_build=1
     fi
 
     if [ -n "$(docker ps -q --filter "name=${CONTAINER_NAME}\$")" ]; then
         printf 'Container "%s" is currently working...\n' "${CONTAINER_NAME}" 1>&2
         exit 1
+    fi
+
+    if [ -z "$(docker images -q "${IMAGE_NAME}")" -o "${force_build}" -eq 1 ]; then
+        docker build --pull -t "${IMAGE_NAME}" .
     fi
 
     if [ -n "$(docker ps -aq --filter "name=${CONTAINER_NAME}\$")" ]; then
@@ -37,13 +43,13 @@ docker_build() {
 
     docker run \
         --name "${CONTAINER_NAME}" \
-        --entrypoint="${BUILD_ENTRYPOINT}" \
         --privileged \
         --rm \
         -t \
         -v "${PROJECT_PATH}:${PROJECT_PATH}" \
         -w "${SOURCE_PATH}" \
         "${CONTAINER_NAME}" \
+        ${BUILD_ENTRYPOINT} \
         "$@"
 }
 
@@ -52,49 +58,51 @@ docker_shell() {
 
     docker run \
         --name "${CONTAINER_NAME}" \
-        --entrypoint "${SHELL_ENTRYPOINT}" \
         --privileged \
         --rm \
         -it \
         -v "${PROJECT_PATH}:${PROJECT_PATH}" \
         -w "${SOURCE_PATH}" \
         "${CONTAINER_NAME}" \
+        ${SHELL_ENTRYPOINT} \
         "$@"
 }
 
 docker_clean() {
-    docker rm -fv "${CONTAINER_NAME}"
+    if [ -n "$(docker ps -aq --filter "name=${CONTAINER_NAME}\$")" ]; then
+        docker rm -fv "${CONTAINER_NAME}"
+    fi
     docker rmi -f "${IMAGE_NAME}"
 }
 
 usage() {
-    printf 'Usage: %s [command] [...]\n' "$0"
+    printf 'Usage: %s [command] <arguments>\n' "$0"
     exit 1
 }
 
 main() {
-    while [ "$#" -gt 0 ]; do
-        case "$1" in
-            build)
-                echo '>>> build:'
-                docker_build
-                ;;
-            shell)
-                echo '>>> shell:'
-                docker_shell
-                ;;
-            clean)
-                echo '>>> clean:'
-                docker_clean
-                ;;
-            *)
-                printf 'Unknown command "%s"\n' "$1" 1>&2
-                usage
-                ;;
-        esac
+    local command="$1"
 
-        shift 1
-    done
+    shift 1
+
+    case "${command}" in
+        prepare)
+            docker_prepare -f
+            ;;
+        build)
+            docker_build "$@"
+            ;;
+        shell)
+            docker_shell "$@"
+            ;;
+        clean)
+            docker_clean
+            ;;
+        *)
+            printf 'Unknown command "%s"\n' "${command}" 1>&2
+            usage
+            ;;
+    esac
 }
 
 main "$@"
