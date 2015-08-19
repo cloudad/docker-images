@@ -15,19 +15,6 @@
   debug:
     msg: Bootstrap {{ bootstrap_origin|title }} {{ bootstrap_codename|title }} at {{ bootstrap_target_path|path_abspath }}
 
-- name: umount target mountpoints
-  command: umount -lR '{{ item }}'
-  with_items:
-    - '{{ bootstrap_target_path|path_abspath }}/dev/'
-    - '{{ bootstrap_target_path|path_abspath }}/proc/'
-    - '{{ bootstrap_target_path|path_abspath }}/sys/'
-  when: item|path_ismount
-
-- name: remove target directory
-  file:
-    path: '{{ bootstrap_target_path|path_abspath }}'
-    state: absent
-
 - name: create target directory
   file:
     path: '{{ bootstrap_target_path|path_abspath }}'

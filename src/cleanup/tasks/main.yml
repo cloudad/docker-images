@@ -1,0 +1,18 @@
+---
+- name: check variables
+  assert:
+    that:
+      - cleanup_target_path is string and cleanup_target_path|length
+
+- name: umount target mountpoints
+  command: umount -lR '{{ item }}'
+  with_items:
+    - '{{ cleanup_target_path|path_abspath }}/dev/'
+    - '{{ cleanup_target_path|path_abspath }}/proc/'
+    - '{{ cleanup_target_path|path_abspath }}/sys/'
+  when: item|path_ismount
+
+- name: remove target directory
+  file:
+    path: '{{ cleanup_target_path|path_abspath }}'
+    state: absent
