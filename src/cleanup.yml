@@ -13,5 +13,4 @@
       connection: local
 
   roles:
-    - role: cleanup
-      dir: cleanup/
+    - role: local_roles/cleanup/

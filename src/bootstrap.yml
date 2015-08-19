@@ -13,5 +13,4 @@
       connection: local
 
   roles:
-    - role: bootstrap
-      dir: bootstrap/
+    - role: local_roles/bootstrap/
