@@ -1,0 +1,17 @@
+---
+- hosts: all
+  gather_facts: no
+  connection: local
+
+  tags:
+    - cleanup
+
+  pre_tasks:
+    - name: begin cleanup
+      debug:
+        msg: Cleaning directory '{{ target_path|path_abspath }}'
+      connection: local
+
+  roles:
+    - role: cleanup
+      dir: cleanup/

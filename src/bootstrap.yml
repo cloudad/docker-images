@@ -1,0 +1,17 @@
+---
+- hosts: all
+  gather_facts: no
+  connection: local
+
+  tags:
+    - bootstrap
+
+  pre_tasks:
+    - name: begin bootstrap
+      debug:
+        msg: Bootstraping directory '{{ target_path|path_abspath }}'
+      connection: local
+
+  roles:
+    - role: bootstrap
+      dir: bootstrap/
