@@ -8,12 +8,18 @@
   args:
     executable: /bin/bash
     warn: no
+  environment:
+    BASHOPTS: extglob
   with_items:
-    - /var/cache/apt/archives/*.deb
+    - /var/cache/apt/archives/!(partial)
     - /var/cache/apt/archives/partial/*
+    - /var/lib/apt/lists/!(partial)
+    - /var/lib/apt/lists/partial/*
     - /var/cache/debconf/*-old
-    - /var/lib/apt/lists/*{Release,Packages,Translation}*
-    - /usr/share/locale/*
+    - /usr/share/locale/??
+    - /usr/share/locale/??@*
+    - /usr/share/locale/??_*
+    - /usr/share/locale/???
     - /usr/share/man/??
     - /usr/share/man/??@*
     - /usr/share/man/??_*
