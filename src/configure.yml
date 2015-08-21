@@ -1,0 +1,15 @@
+---
+- hosts: all
+  gather_facts: no
+  connection: local
+
+  tags:
+    - configure
+
+  pre_tasks:
+    - name: begin configure
+      debug:
+        msg: Configuring directory '{{ target_path|path_abspath }}'
+
+  roles:
+    - role: local_roles/configure/

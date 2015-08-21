@@ -10,6 +10,8 @@
       - bootstrap_components is sequence and bootstrap_components|length
       - bootstrap_packages is none or bootstrap_packages is sequence
       - bootstrap_suites is sequence and bootstrap_suites|length
+  tags:
+    - always
 
 - name: begin bootstrap
   debug:
@@ -32,11 +34,3 @@
     '{{ bootstrap_codename }}'
     '{{ bootstrap_target_path|path_abspath }}'
     '{{ bootstrap_mirror }}'
-
-- name: setup repositiories
-  template:
-    src: sources.list.j2
-    dest: '{{ bootstrap_target_path|path_abspath }}/etc/apt/sources.list'
-    owner: root
-    group: root
-    mode: 0644

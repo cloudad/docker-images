@@ -3,13 +3,15 @@
   assert:
     that:
       - cleanup_target_path is string and cleanup_target_path|length
+  tags:
+    - always
 
 - name: umount target mountpoints
-  command: umount -lR '{{ item }}'
+  command: umount -lR '{{ item }}/'
   with_items:
-    - '{{ cleanup_target_path|path_abspath }}/dev/'
-    - '{{ cleanup_target_path|path_abspath }}/proc/'
-    - '{{ cleanup_target_path|path_abspath }}/sys/'
+    - '{{ cleanup_target_path|path_abspath }}/dev'
+    - '{{ cleanup_target_path|path_abspath }}/proc'
+    - '{{ cleanup_target_path|path_abspath }}/sys'
   when: item|path_ismount
 
 - name: remove target directory

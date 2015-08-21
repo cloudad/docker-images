@@ -1,0 +1,41 @@
+---
+- name: check variables
+  assert:
+    that:
+      - configure_target_path is string and configure_target_path|length
+  tags:
+    - always
+
+- name: begin configure
+  debug:
+    msg: Configure directory {{ configure_target_path|path_abspath }}
+
+- name: install configurations
+  copy:
+    src: '{{ item }}'
+    dest: '{{ configure_target_path|path_abspath }}/{{ item }}'
+    owner: root
+    group: root
+    mode: 0644
+  with_items:
+    - etc/hostname
+    - etc/hosts
+    - etc/resolv.conf
+
+- name: setup repositiories
+  template:
+    src: sources.list.j2
+    dest: '{{ configure_target_path|path_abspath }}/etc/apt/sources.list'
+    owner: root
+    group: root
+    mode: 0644
+
+- name: remove devices
+  shell: rm -rfv {{ configure_target_path|path_abspath }}/dev/!(null)
+  args:
+    executable: /bin/bash
+    warn: no
+  environment:
+    BASHOPTS: extglob
+  register: cleanup_result
+  changed_when: cleanup_result.stdout
