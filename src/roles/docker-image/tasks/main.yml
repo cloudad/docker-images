@@ -26,5 +26,5 @@
     - /var/cache/man/??
     - /var/cache/man/??@*
     - /var/cache/man/??_*
-  register: cleanup_result
-  changed_when: cleanup_result.stdout
+  register: result
+  changed_when: result.stdout

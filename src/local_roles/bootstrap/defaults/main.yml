@@ -1,9 +1,9 @@
 ---
-bootstrap_origin: ~
-bootstrap_mirror: ~
-bootstrap_target_path: ~
-bootstrap_codename: ~
-bootstrap_arch: ~
-bootstrap_components: ~
-bootstrap_packages: ~
-bootstrap_suites: ~
+origin: ~
+mirror: ~
+target_path: ~
+codename: ~
+arch: ~
+components: ~
+packages: ~
+suites: ~

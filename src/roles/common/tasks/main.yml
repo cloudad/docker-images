@@ -36,9 +36,9 @@
 - name: link supported locales
   file:
     src: /etc/locale.gen
-    dest: '{{ common_locale_gen_path }}'
+    dest: '{{ locale_gen_path }}'
     force: yes
     state: link
-  when: common_locale_gen_path != '/etc/locale.gen'
+  when: locale_gen_path != '/etc/locale.gen'
 
 - meta: flush_handlers

@@ -1,7 +1,7 @@
 ---
-common_locales:
+locales:
   - name: C.UTF-8
     charset: UTF-8
-common_language: C
-common_timezone: Etc/UTC
-common_locale_gen_path: /etc/locale.gen
+language: C
+timezone: Etc/UTC
+locale_gen_path: /etc/locale.gen

@@ -1,3 +1,3 @@
-{% for suite in bootstrap_suites %}
-    {{- (["deb", bootstrap_mirror, suite] + bootstrap_components)|join(" ") }}
+{% for suite in suites %}
+    {{- (["deb", mirror, suite] + components)|join(" ") }}
 {% endfor %}

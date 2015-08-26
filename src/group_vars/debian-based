@@ -1,4 +1,4 @@
 ---
-bootstrap_packages:
+packages:
   - locales
   - python

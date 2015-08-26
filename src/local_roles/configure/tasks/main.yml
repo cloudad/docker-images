@@ -2,18 +2,18 @@
 - name: check variables
   assert:
     that:
-      - configure_target_path is string and configure_target_path|length
+      - target_path is string and target_path|length
   tags:
     - always
 
 - name: begin configure
   debug:
-    msg: Configure directory {{ configure_target_path|path_abspath }}
+    msg: Configure directory {{ target_path|path_abspath }}
 
 - name: install configurations
   copy:
     src: '{{ item }}'
-    dest: '{{ configure_target_path|path_abspath }}/{{ item }}'
+    dest: '{{ target_path|path_abspath }}/{{ item }}'
     owner: root
     group: root
     mode: 0644
@@ -25,17 +25,17 @@
 - name: setup repositiories
   template:
     src: sources.list.j2
-    dest: '{{ configure_target_path|path_abspath }}/etc/apt/sources.list'
+    dest: '{{ target_path|path_abspath }}/etc/apt/sources.list'
     owner: root
     group: root
     mode: 0644
 
 - name: remove devices
-  shell: rm -rfv {{ configure_target_path|path_abspath }}/dev/!(null)
+  shell: rm -rfv {{ target_path|path_abspath }}/dev/!(null)
   args:
     executable: /bin/bash
     warn: no
   environment:
     BASHOPTS: extglob
-  register: cleanup_result
-  changed_when: cleanup_result.stdout
+  register: result
+  changed_when: result.stdout

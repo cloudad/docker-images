@@ -1,17 +1,17 @@
 ---
-bootstrap_origin: ubuntu
-bootstrap_mirror: http://archive.ubuntu.com/ubuntu/
+origin: ubuntu
+mirror: http://archive.ubuntu.com/ubuntu/
 
-bootstrap_components:
+components:
   - main
   - multiverse
   - restricted
   - universe
 
-bootstrap_suites:
-  - '{{ bootstrap_codename }}'
-  - '{{ bootstrap_codename }}-updates'
-  - '{{ bootstrap_codename }}-security'
-  - '{{ bootstrap_codename }}-proposed'
+suites:
+  - '{{ codename }}'
+  - '{{ codename }}-updates'
+  - '{{ codename }}-security'
+  - '{{ codename }}-proposed'
 
-common_locale_gen_path: /var/lib/locales/supported.d/local
+locale_gen_path: /var/lib/locales/supported.d/local

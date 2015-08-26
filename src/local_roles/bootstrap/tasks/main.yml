@@ -2,35 +2,35 @@
 - name: check variables
   assert:
     that:
-      - bootstrap_origin is string and bootstrap_origin|length
-      - bootstrap_mirror is string and bootstrap_mirror|length
-      - bootstrap_target_path is string and bootstrap_target_path|length
-      - bootstrap_codename is string and bootstrap_codename|length
-      - bootstrap_arch is string and bootstrap_arch|length
-      - bootstrap_components is sequence and bootstrap_components|length
-      - bootstrap_packages is none or bootstrap_packages is sequence
-      - bootstrap_suites is sequence and bootstrap_suites|length
+      - origin is string and origin|length
+      - mirror is string and mirror|length
+      - target_path is string and target_path|length
+      - codename is string and codename|length
+      - arch is string and arch|length
+      - components is sequence and components|length
+      - packages is none or packages is sequence
+      - suites is sequence and suites|length
   tags:
     - always
 
 - name: begin bootstrap
   debug:
-    msg: Bootstrap {{ bootstrap_origin|title }} {{ bootstrap_codename|title }} at {{ bootstrap_target_path|path_abspath }}
+    msg: Bootstrap {{ origin|title }} {{ codename|title }} at {{ target_path|path_abspath }}
 
 - name: create target directory
   file:
-    path: '{{ bootstrap_target_path|path_abspath }}'
+    path: '{{ target_path|path_abspath }}'
     state: directory
 
 - name: setup basic system
   command: >
     debootstrap
-    '--arch={{ bootstrap_arch }}'
-    '--components={{ bootstrap_components|join(",") }}'
-    {% if bootstrap_packages %}
-      '--include={{ bootstrap_packages|join(",") }}'
+    '--arch={{ arch }}'
+    '--components={{ components|join(",") }}'
+    {% if packages %}
+      '--include={{ packages|join(",") }}'
     {% endif %}
     '--variant=minbase'
-    '{{ bootstrap_codename }}'
-    '{{ bootstrap_target_path|path_abspath }}'
-    '{{ bootstrap_mirror }}'
+    '{{ codename }}'
+    '{{ target_path|path_abspath }}'
+    '{{ mirror }}'
