@@ -13,7 +13,7 @@ BUILD_DIR="${BUILD_DIR:-build}"
 
 SOURCE_PATH="${PROJECT_PATH}/${SOURCE_DIR}"
 BUILD_PATH="${PROJECT_PATH}/${BUILD_DIR}"
-BUILD_ENTRYPOINT="ansible-playbook site.yml -i suites -e build_path='${BUILD_PATH}'"
+BUILD_ENTRYPOINT="ansible-playbook site.yml -e build_path='${BUILD_PATH}'"
 SHELL_ENTRYPOINT="bash"
 
 
