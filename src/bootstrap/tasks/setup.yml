@@ -16,3 +16,5 @@
     '{{ codename }}'
     '{{ target_path|path_abspath }}'
     '{{ mirror }}'
+
+- include: _umount.yml

@@ -1,11 +1,5 @@
 ---
-- name: umount target mountpoints
-  command: umount -lR '{{ item }}/'
-  with_items:
-    - '{{ target_path|path_abspath }}/dev'
-    - '{{ target_path|path_abspath }}/proc'
-    - '{{ target_path|path_abspath }}/sys'
-  when: item|path_ismount
+- include: _umount.yml
 
 - name: remove target directory
   file:
