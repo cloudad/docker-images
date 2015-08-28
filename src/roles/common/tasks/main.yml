@@ -4,9 +4,17 @@
     msg: Provision basic system configuration
   tags: always
 
+- name: setup repositiories
+  template:
+    src: etc/apt/sources.list.j2
+    dest: /etc/apt/sources.list
+    owner: root
+    group: root
+    mode: 0644
+
 - name: configure timezone
   template:
-    src: timezone.j2
+    src: etc/timezone.j2
     dest: /etc/timezone
     owner: root
     group: root
@@ -16,7 +24,7 @@
 
 - name: configure locales
   template:
-    src: locale.gen.j2
+    src: etc/locale.gen.j2
     dest: /etc/locale.gen
     owner: root
     group: root
@@ -26,7 +34,7 @@
 
 - name: configure default locale
   template:
-    src: locale.j2
+    src: etc/locale.j2
     dest: /etc/default/locale
     owner: root
     group: root

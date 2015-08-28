@@ -11,14 +11,6 @@
     - etc/hosts
     - etc/resolv.conf
 
-- name: setup repositiories
-  template:
-    src: sources.list.j2
-    dest: '{{ target_path|path_abspath }}/etc/apt/sources.list'
-    owner: root
-    group: root
-    mode: 0644
-
 - name: remove devices
   shell: rm -rfv {{ target_path|path_abspath }}/dev/!(null)
   args:
