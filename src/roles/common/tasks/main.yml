@@ -2,6 +2,7 @@
 - name: begin common
   debug:
     msg: Provision basic system configuration
+  tags: always
 
 - name: configure timezone
   template:

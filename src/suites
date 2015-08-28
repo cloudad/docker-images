@@ -7,3 +7,6 @@ debian-jessie
 [debian-based:children]
 ubuntu
 debian
+
+[core-image:children]
+debian-based

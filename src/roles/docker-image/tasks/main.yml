@@ -2,6 +2,7 @@
 - name: begin docker-image
   debug:
     msg: Provision Docker Image specific configuration
+  tags: always
 
 - name: cleanup filesystem
   shell: rm -rfv {{ item }}

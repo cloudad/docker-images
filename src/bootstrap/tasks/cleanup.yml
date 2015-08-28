@@ -1,11 +1,4 @@
 ---
-- name: check variables
-  assert:
-    that:
-      - target_path is string and target_path|length
-  tags:
-    - always
-
 - name: umount target mountpoints
   command: umount -lR '{{ item }}/'
   with_items:

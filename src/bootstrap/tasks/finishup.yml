@@ -1,15 +1,4 @@
 ---
-- name: check variables
-  assert:
-    that:
-      - target_path is string and target_path|length
-  tags:
-    - always
-
-- name: begin configure
-  debug:
-    msg: Configure directory {{ target_path|path_abspath }}
-
 - name: install configurations
   copy:
     src: '{{ item }}'

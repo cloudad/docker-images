@@ -10,27 +10,18 @@
       - components is sequence and components|length
       - packages is none or packages is sequence
       - suites is sequence and suites|length
-  tags:
-    - always
+  tags: always
 
 - name: begin bootstrap
   debug:
     msg: Bootstrap {{ origin|title }} {{ codename|title }} at {{ target_path|path_abspath }}
+  tags: always
 
-- name: create target directory
-  file:
-    path: '{{ target_path|path_abspath }}'
-    state: directory
+- include: cleanup.yml
+  tags: cleanup
 
-- name: setup basic system
-  command: >
-    debootstrap
-    '--arch={{ arch }}'
-    '--components={{ components|join(",") }}'
-    {% if packages %}
-      '--include={{ packages|join(",") }}'
-    {% endif %}
-    '--variant=minbase'
-    '{{ codename }}'
-    '{{ target_path|path_abspath }}'
-    '{{ mirror }}'
+- include: setup.yml
+  tags: setup
+
+- include: finishup.yml
+  tags: finishup

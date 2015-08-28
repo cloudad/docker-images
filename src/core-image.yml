@@ -1,0 +1,17 @@
+---
+- hosts: core-image
+
+  vars:
+    ansible_ssh_host: '{{ target_path|path_abspath }}'
+
+  roles:
+    - role: bootstrap
+      connection: local
+      ansible_ssh_host: /
+      tags: bootstrap
+
+    - role: common
+      tags: common
+
+    - role: docker-image
+      tags: docker-image

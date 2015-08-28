@@ -1,5 +1,2 @@
 ---
-- include: cleanup.yml
-- include: bootstrap.yml
-- include: configure.yml
-- include: provision.yml
+- include: core-image.yml
