@@ -1,9 +1,4 @@
 ---
-- name: begin docker-image
-  debug:
-    msg: Provision Docker Image specific configuration
-  tags: always
-
 - name: cleanup filesystem
   shell: rm -rfv {{ item }}
   args:
@@ -27,5 +22,5 @@
     - /var/cache/man/??
     - /var/cache/man/??@*
     - /var/cache/man/??_*
-  register: result
-  changed_when: result.stdout
+  register: cleanup_result
+  changed_when: cleanup_result.stdout

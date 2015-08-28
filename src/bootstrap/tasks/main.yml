@@ -12,11 +12,6 @@
       - suites is sequence and suites|length
   tags: always
 
-- name: begin bootstrap
-  debug:
-    msg: Bootstrap {{ origin|title }} {{ codename|title }} at {{ target_path|path_abspath }}
-  tags: always
-
 - include: cleanup.yml
   tags: cleanup
 

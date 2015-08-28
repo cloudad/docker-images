@@ -18,5 +18,5 @@
     warn: no
   environment:
     BASHOPTS: extglob
-  register: result
-  changed_when: result.stdout
+  register: cleanup_result
+  changed_when: cleanup_result.stdout

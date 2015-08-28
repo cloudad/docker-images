@@ -1,9 +1,4 @@
 ---
-- name: begin common
-  debug:
-    msg: Provision basic system configuration
-  tags: always
-
 - name: setup repositiories
   template:
     src: etc/apt/sources.list.j2
