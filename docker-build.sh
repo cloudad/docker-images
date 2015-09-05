@@ -9,11 +9,15 @@ IMAGE_NAME="${IMAGE_NAME:-${PROJECT_NAME}}"
 CONTAINER_NAME="${CONTAINER_NAME:-${PROJECT_NAME}}"
 
 SOURCE_DIR="${SOURCE_DIR:-src}"
+TESTS_DIR="${TESTS_DIR:-tests}"
 BUILD_DIR="${BUILD_DIR:-build}"
 
 SOURCE_PATH="${PROJECT_PATH}/${SOURCE_DIR}"
+TESTS_PATH="${PROJECT_PATH}/${TESTS_DIR}"
 BUILD_PATH="${PROJECT_PATH}/${BUILD_DIR}"
+
 BUILD_ENTRYPOINT="ansible-playbook site.yml -e build_path='${BUILD_PATH}'"
+TEST_ENTRYPOINT="bats"
 SHELL_ENTRYPOINT="bash"
 
 
@@ -48,9 +52,25 @@ docker_build() {
         -t \
         -v "${PROJECT_PATH}:${PROJECT_PATH}" \
         -w "${SOURCE_PATH}" \
-        "${CONTAINER_NAME}" \
+        "${IMAGE_NAME}" \
         ${BUILD_ENTRYPOINT} \
         "$@"
+}
+
+docker_test() {
+    docker_prepare
+
+    docker run \
+        --name "${CONTAINER_NAME}" \
+        --privileged \
+        --rm \
+        -t \
+        -v "${PROJECT_PATH}:${PROJECT_PATH}" \
+        -w "${TESTS_PATH}" \
+        "${IMAGE_NAME}" \
+        ${TEST_ENTRYPOINT} \
+        "$@" \
+        .
 }
 
 docker_shell() {
@@ -63,7 +83,7 @@ docker_shell() {
         -it \
         -v "${PROJECT_PATH}:${PROJECT_PATH}" \
         -w "${SOURCE_PATH}" \
-        "${CONTAINER_NAME}" \
+        "${IMAGE_NAME}" \
         ${SHELL_ENTRYPOINT} \
         "$@"
 }
@@ -91,6 +111,9 @@ main() {
             ;;
         build)
             docker_build "$@"
+            ;;
+        test)
+            docker_test "$@"
             ;;
         shell)
             docker_shell "$@"
