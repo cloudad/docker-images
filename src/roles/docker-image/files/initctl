@@ -1,0 +1,8 @@
+#!/bin/sh
+
+if [ "$1" = version ]; then
+    exec /sbin/initctl.distrib "$@"
+fi
+
+echo
+echo "Warning: Fake initctl called, doing nothing..."

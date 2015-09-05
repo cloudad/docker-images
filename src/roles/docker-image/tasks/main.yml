@@ -1,4 +1,54 @@
 ---
+- name: install unconfigured fstab
+  copy:
+    src: fstab
+    dest: /etc/fstab
+    owner: root
+    group: root
+    mode: 0644
+
+- name: install policy-rc.d
+  copy:
+    src: policy-rc.d
+    dest: /usr/sbin/policy-rc.d
+    owner: root
+    group: root
+    mode: 0755
+
+- name: divert start-stop-daemon
+  command: >
+    dpkg-divert
+      --add
+      --rename
+      /sbin/start-stop-daemon
+  changed_when: divert_result.stdout.startswith("Adding 'local diversion")
+  register: divert_result
+
+- name: install fake start-stop-daemon
+  copy:
+    src: start-stop-daemon
+    dest: /sbin/start-stop-daemon
+    owner: root
+    group: root
+    mode: 0755
+
+- name: divert initctl
+  command: >
+    dpkg-divert
+      --add
+      --rename
+      /sbin/initctl
+  changed_when: divert_result.stdout.startswith("Adding 'local diversion")
+  register: divert_result
+
+- name: install fake initctl
+  copy:
+    src: initctl
+    dest: /sbin/initctl
+    owner: root
+    group: root
+    mode: 0755
+
 - name: cleanup filesystem
   shell: rm -rfv {{ item }}
   args:
