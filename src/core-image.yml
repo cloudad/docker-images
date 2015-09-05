@@ -13,5 +13,5 @@
     - role: common
       tags: common
 
-    - role: docker-image
-      tags: docker-image
+    - role: embedded
+      tags: embedded
